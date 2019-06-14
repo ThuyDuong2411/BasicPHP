@@ -23,7 +23,6 @@ ob_start();
 
     <body>
     <?php include('connection/conn.php'); ?>
-    <?php include('progress/deleteUser.php'); ?>
     <!-- Sidenav -->
     <?php include('includes/sidenav.php') ?>
     <!-- Main content -->
