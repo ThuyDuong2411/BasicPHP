@@ -4,9 +4,6 @@
 
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-        <meta name="author" content="Creative Tim">
         <title>Admin</title>
         <!-- Favicon -->
         <link href="./assets/img/brand/favicon.png" rel="icon" type="image/png">
@@ -98,49 +95,7 @@
                             </div>
                         </div>
                         <div class="card-body px-lg-5 py-lg-5">
-                            <?php
-                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                                $errors = array();
-                                if (empty($_POST['nameUser'])) {
-                                    $errors[] = 'nameUser';
-                                } else {
-                                    $nameUser = $_POST['nameUser'];
-                                }
-                                if (empty($_POST['emailUser'])) {
-                                    $errors[] = 'emailUser';
-                                } else {
-                                    $emailUser = $_POST['emailUser'];
-                                    if (!filter_var($emailUser, FILTER_VALIDATE_EMAIL)) {
-                                        $errors[] = "Invalid email format";
-                                    }
-                                }
-                                if (empty($_POST['birthdayUser'])) {
-                                    $errors[] = 'birthdayUser';
-                                } else {
-                                    $birthdayUser = $_POST['birthdayUser'];
-                                    $today = date("Y-m-d");
-                                    if (strtotime($birthdayUser) >= strtotime($today))
-                                    {
-                                        $errors[] = 'birthdayUser';
-                                    }
-                                }
-                                if (empty($_POST['passwordUser'])) {
-                                    $errors[] = 'passwordUser';
-                                } else {
-                                    $passwordUser = $_POST['passwordUser'];
-                                }
-                                if (empty($errors)) {
-                                    $sql = "INSERT INTO user(nameUser, emailUser, passwordUser, birthdayUser) VALUES ('$nameUser','$emailUser',md5('$passwordUser'),'$birthdayUser')";
-                                    $result = $conn->query($sql);
-                                    if (mysqli_affected_rows($conn) == 1) {
-                                        echo "<p style='color: blue'> Successful </p>";
-                                        header('Location: index.php');
-                                    } else {
-                                        echo "<p style='color: blue'>Fail</p>";
-                                    }
-                                }
-                            }
-                            ?>
+                            <?php include ('controller/create_account.php')?>
                             <form role="form" name="register" method="POST">
                                 <div class="form-group">
                                     <div class="input-group input-group-alternative mb-3">
@@ -148,12 +103,12 @@
                                             <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                                         </div>
                                         <input class="form-control" placeholder="Name" type="text" name="nameUser" value="<?php if(isset($_POST['nameUser'])) {echo $_POST['nameUser'];}?>">
-                                        <?php
-                                        if (isset($errors) && in_array('nameUser', $errors)) {
-                                            echo "<p style='color: red'>Please enter username</p>";
-                                        }
-                                        ?>
                                     </div>
+                                    <?php
+                                    if (isset($errors) && in_array('nameUser', $errors)) {
+                                        echo "<p style='color: red'>Please enter username or invalid username(only word characters).</p>";
+                                    }
+                                    ?>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group input-group-alternative mb-3">
@@ -161,12 +116,12 @@
                                             <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                         </div>
                                         <input class="form-control" placeholder="Email" type="email" name="emailUser" value="<?php if(isset($_POST['emailUser'])) {echo $_POST['emailUser'];}?>">
-                                        <?php
-                                        if (isset($errors) && in_array('emailUser', $errors)) {
-                                            echo "<p style='color: red'>Please enter email</p>";
-                                        }
-                                        ?>
                                     </div>
+                                    <?php
+                                    if (isset($errors) && in_array('emailUser', $errors)) {
+                                        echo "<p style='color: red'>Please enter email or invalid email.</p>";
+                                    }
+                                    ?>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group input-group-alternative">
@@ -175,12 +130,12 @@
                                         </div>
                                         <input class="form-control" placeholder="Birthday" type="date"
                                                name="birthdayUser" value="<?php if(isset($_POST['birthdayUser'])) {echo $_POST['birthdayUser'];}?>">
-                                        <?php
-                                        if (isset($errors) && in_array('birthdayUser', $errors)) {
-                                            echo "<p style='color: red'>Please enter birthday or invalid birthday</p>";
-                                        }
-                                        ?>
                                     </div>
+                                    <?php
+                                    if (isset($errors) && in_array('birthdayUser', $errors)) {
+                                        echo "<p style='color: red'>Please enter birthday or invalid birthday.</p>";
+                                    }
+                                    ?>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group input-group-alternative">
@@ -189,12 +144,12 @@
                                         </div>
                                         <input class="form-control" placeholder="Password" type="password"
                                                name="passwordUser"  value="<?php if(isset($_POST['passwordUser'])) {echo $_POST['passwordUser'];}?>">
-                                        <?php
-                                        if (isset($errors) && in_array('passwordUser', $errors)) {
-                                            echo "<p style='color: red'>Please enter password</p>";
-                                        }
-                                        ?>
                                     </div>
+                                    <?php
+                                    if (isset($errors) && in_array('passwordUser', $errors)) {
+                                        echo "<p style='color: red'>Please enter password and invalid password(at least 8 characters).</p>";
+                                    }
+                                    ?>
                                 </div>
                                 <div class="text-muted font-italic">
                                     <small><span class="text-success font-weight-700"></span></small>

@@ -6,9 +6,6 @@ ob_start();
 
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-        <meta name="author" content="Creative Tim">
         <title>Admin</title>
         <!-- Favicon -->
         <link href="./assets/img/brand/favicon.png" rel="icon" type="image/png">
@@ -43,32 +40,12 @@ ob_start();
                                 </div>
                             </div>
                         </div>
-                        <?php
-                            if(isset($_POST['submit'])){
-                                if($_FILES['file']['name']) {
-                                    $filename = explode(".",$_FILES['file']['name']);
-                                    if($filename[1] == 'csv') {
-                                        $handle = fopen($_FILES['file']['tmp_name'],"r");
-                                        while($data = fgetcsv($handle)) {
-                                            $item1 = mysqli_real_escape_string($conn, $data[0]);
-                                            $item2 = mysqli_real_escape_string($conn, $data[1]);
-                                            $item3 = mysqli_real_escape_string($conn, $data[2]);
-                                            $item4 = mysqli_real_escape_string($conn, $data[3]);
-                                            $sql = "INSERT INTO user (nameUser, emailUser, passwordUser, birthdayUser) VALUE ('$item1','$item2',md5('$item3'),'$item4')";
-                                            mysqli_query($conn,$sql);
-                                        }
-                                        fclose($handle);
-                                        print "<p style='color: blue'> Import done </p>";
-                                    }
-                                }
-                            }
-                        ?>
                         <div class="card-body">
                             <form method="POST" enctype="multipart/form-data" action="importUsers.php">
                                 <div class="pl-lg-4">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-username">Choose file</label>
+                                            <label class="form-control-label" for="input-username">Choose file(.csv)</label>
                                             <input type="file" id="input-file" name = "file" class="form-control form-control-alternative" required="required">
                                         </div>
                                     </div>
@@ -81,7 +58,21 @@ ob_start();
                                 </div>
                                 <hr class="my-4"/>
                             </form>
-
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Birthday</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php include ('controller/import_users.php')?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

@@ -2,9 +2,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <meta name="author" content="Creative Tim">
     <title>Admin</title>
     <!-- Favicon -->
     <link href="./assets/img/brand/favicon.png" rel="icon" type="image/png">
@@ -49,43 +46,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php
-                            if (isset($_REQUEST['ok']))
-                            {
-                            $search = addslashes($_GET['Search']);
-                            if (empty($search)) {
-                                echo "Enter the information you want to find";
-                            }
-                            else
-                            {
-                            $sql = "SELECT * FROM user WHERE nameUser like '%$search%'";
-                            $result = $conn->query($sql);
-                            $num = $result->num_rows;
-                            if ($num > 0 && $search != "") {
-                                while ($row = $result->fetch_assoc()) { ?>
-                                    <tr>
-                                        <td>
-                                            <?php echo "" . $row["idUser"] . ""; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo "" . $row["nameUser"] . ""; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo "" . $row["emailUser"] . ""; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo "" . $row["birthdayUser"] . ""; ?>
-                                        </td>
-                                        <td>
-                                            <a href="editUser.php?idUser=<?php echo "" . $row["idUser"] . ""; ?>"
-                                               class="btn btn-sm btn-primary"> Edit </a>
-                                            <a onclick="return confirm('Do you really want to delete?');"
-                                               href="deleteUser.php?idUser=<?php echo "" . $row["idUser"] . ""; ?>"
-                                               class="btn btn-sm btn-primary"> Delete </a>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            <?php } ?>
+                            <?php include ('controller/search.php');?>
                             </tbody>
                         </table>
                     </div>
@@ -131,5 +92,4 @@
 <!-- Argon JS -->
 <script src="./assets/js/argon.js?v=1.0.0"></script>
 </body>
-</html><?php } ?>
-<?php } ?>
+</html>

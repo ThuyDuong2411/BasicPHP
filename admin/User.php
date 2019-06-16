@@ -2,9 +2,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <meta name="author" content="Creative Tim">
     <title>Admin</title>
     <!-- Favicon -->
     <link href="./assets/img/brand/favicon.png" rel="icon" type="image/png">
@@ -101,6 +98,9 @@
                             <?php
                             }
                             ?>
+                            <?php
+                            }
+                            ?>
                         </table>
                     </div>
                     <div class="card-footer py-4">
@@ -164,4 +164,3 @@
 <script src="./assets/js/argon.js?v=1.0.0"></script>
 </body>
 </html>
-<?php } ?>

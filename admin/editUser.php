@@ -6,9 +6,6 @@ ob_start();
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <meta name="author" content="Creative Tim">
     <title>Admin</title>
     <!-- Favicon -->
     <link href="./assets/img/brand/favicon.png" rel="icon" type="image/png">
@@ -43,61 +40,9 @@ ob_start();
                             </div>
                         </div>
                     </div>
-                    <?php
-                    if (isset($_GET['idUser']) && filter_var($_GET['idUser'], FILTER_VALIDATE_INT, array('min_range' => 1))) {
-                        $idUser = $_GET['idUser'];
-                    } else {
-                        header('Location: User.php');
-                        exit();
-                    }
-                    $sql_id = "SELECT nameUser, emailUser, birthdayUser FROM user where idUser= '$idUser'";
-                    $result_id = $conn->query($sql_id);
-                    if (mysqli_num_rows($result_id) == 1) {
-                        list($nameUser, $emailUser, $birthdayUser) = mysqli_fetch_array($result_id, MYSQLI_NUM);
-                    } else {
-                        $message = "<p style='color: red'>ID don't exists!</p>";
-                    }
-                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                        $errors = array();
-                        if (empty($_POST['nameUser'])) {
-                            $errors[] = 'nameUser';
-                        } else {
-                            $nameUser = $_POST['nameUser'];
-                        }
-                        if (empty($_POST['emailUser'])) {
-                            $errors[] = 'emailUser';
-                        } else {
-                            $emailUser = $_POST['emailUser'];
-                            if (!filter_var($emailUser, FILTER_VALIDATE_EMAIL)) {
-                                $emailErr = "Invalid email format";
-                            }
-                        }
-                        if (empty($_POST['birthdayUser'])) {
-                            $errors[] = 'birthdayUser';
-                        } else {
-                            $birthdayUser = $_POST['birthdayUser'];
-                        }
-                        if (empty($errors)) {
-                            $sql = "UPDATE user set nameUser = '$nameUser' , emailUser = '$emailUser', birthdayUser = '$birthdayUser' where idUser= '$idUser'";
-                            $result = $conn->query($sql);
-                            if (mysqli_affected_rows($conn) == 1) {
-                                echo "<p style='color: blue'> Successful </p>";
-                                header('Location: User.php');
-                            } else {
-                                echo "<p style='color: blue'>Fail</p>";
-                            }
-                        } else {
-                            $message = "<p style='color: red'>Please enter full information!</p>";
-                        }
-                    }
-                    ?>
+                    <?php include ('controller/edit.php');?>
                     <div class="card-body">
                         <form method="POST">
-                            <?php
-                            if (isset($message)) {
-                                echo $message;
-                            }
-                            ?>
                             <h6 class="heading-small text-muted mb-4">User information</h6>
                             <div class="pl-lg-4">
                                 <div class="col-lg-6">
@@ -108,12 +53,12 @@ ob_start();
                                                value="<?php if (isset($nameUser)) {
                                                    echo $nameUser;
                                                } ?>">
-                                        <?php
-                                        if (isset($errors) && in_array('nameUser', $errors)) {
-                                            echo "<p style='color: red'>Please enter username</p>";
-                                        }
-                                        ?>
                                     </div>
+                                    <?php
+                                    if (isset($errors) && in_array('nameUser', $errors)) {
+                                        echo "<p style='color: red'>Please enter username or invalid username.</p>";
+                                    }
+                                    ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -123,12 +68,13 @@ ob_start();
                                                placeholder="abc@example.com" value="<?php if (isset($emailUser)) {
                                             echo $emailUser;
                                         } ?>">
-                                        <?php
-                                        if (isset($errors) && in_array('emailUser', $errors)) {
-                                            echo "<p style='color: red'>Please enter email address</p>";
-                                        }
-                                        ?>
                                     </div>
+
+                                    <?php
+                                    if (isset($errors) && in_array('emailUser', $errors)) {
+                                        echo "<p style='color: red'>Please enter email address or invalid email format.</p>";
+                                    }
+                                    ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -138,12 +84,13 @@ ob_start();
                                                value="<?php if (isset($birthdayUser)) {
                                                    echo $birthdayUser;
                                                } ?>">
-                                        <?php
-                                        if (isset($errors) && in_array('birthdayUser', $errors)) {
-                                            echo "<p style='color: red'>Please enter birthday</p>";
-                                        }
-                                        ?>
                                     </div>
+
+                                    <?php
+                                    if (isset($errors) && in_array('birthdayUser', $errors)) {
+                                        echo "<p style='color: red'>Please enter birthday or invalid birthday</p>";
+                                    }
+                                    ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
